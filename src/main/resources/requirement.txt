@@ -1,0 +1,12 @@
+This service should do the following:
+
+- Add book to cart(after lookup of all prices) / (check if book exists)
+- Remove book from cart
+- Get cart price
+- Add cart
+- Delete cart
+
+
+Cart with CartItems(Value Object):
+Constraint on value object:
+- upper limit on number of items in cart at a time
