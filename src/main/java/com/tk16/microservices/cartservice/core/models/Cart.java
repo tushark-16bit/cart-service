@@ -14,7 +14,7 @@ public class Cart {
 
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private UUID cartId;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cartId")
     private List<CartItem> cartItems;
     @LastModifiedDate
     private LocalDateTime lastModifiedTime;
