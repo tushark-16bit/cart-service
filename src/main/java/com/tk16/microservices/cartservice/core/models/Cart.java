@@ -3,7 +3,6 @@ package com.tk16.microservices.cartservice.core.models;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
-import reactor.core.publisher.Flux;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,7 +13,7 @@ public class Cart {
 
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private UUID cartId;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cartId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart")
     private List<CartItem> cartItems;
     @LastModifiedDate
     private LocalDateTime lastModifiedTime;
@@ -36,8 +35,8 @@ public class Cart {
         this.cartId = cartId;
     }
 
-    public Flux<CartItem> lazyGetCartItems() {
-        return null;
+    public List<CartItem> getCartItems() {
+        return this.cartItems;
     }
 
     public void setCartItems(

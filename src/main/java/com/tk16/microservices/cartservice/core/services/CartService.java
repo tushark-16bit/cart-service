@@ -20,11 +20,18 @@ public class CartService {
     // delete cart
 
     // create cart
-    public UUID createCart(Cart cart) {
-        return cartDatabase.save(cart).getCartId();
+    public UUID createCart() {
+        return cartDatabase.save(new Cart()).getCartId();
     }
 
     // add book to cart
-
+    // - get card from cart db
+    // - get book from book client service
+    // - add book as cart item to cart
+    // - save new cart item
+    // - @transactional
     // remove book from cart
+
+
+    // get cart items in cart
 }

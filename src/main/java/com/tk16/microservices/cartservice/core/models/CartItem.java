@@ -1,9 +1,6 @@
 package com.tk16.microservices.cartservice.core.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import org.springframework.data.annotation.Id;
 
 import java.math.BigDecimal;
@@ -12,28 +9,30 @@ import java.util.UUID;
 @Entity
 public class CartItem {
 
-    @Id @GeneratedValue
-    private long cartItemId;
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID cartItemId;
     private long bookId;
     private String bookDescription;
     @ManyToOne(fetch = FetchType.LAZY)
-    private UUID cartId;
+    private Cart cart;
     private BigDecimal itemPrice;
 
     public CartItem() {
     }
 
-    public CartItem(long bookId, String cartItemDescription, UUID cartId) {
+    public CartItem(long bookId, String cartItemDescription, Cart cart,
+                    BigDecimal bookPrice) {
         this.bookId = bookId;
         this.bookDescription = cartItemDescription;
-        this.cartId = cartId;
+        this.cart = cart;
+        this.itemPrice = bookPrice;
     }
 
-    public long getCartItemId() {
+    public UUID getCartItemId() {
         return cartItemId;
     }
 
-    public void setCartItemId(long cartItemId) {
+    public void setCartItemId(UUID cartItemId) {
         this.cartItemId = cartItemId;
     }
 
@@ -53,12 +52,12 @@ public class CartItem {
         this.bookDescription = bookDescription;
     }
 
-    public UUID getCartId() {
-        return cartId;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setCartId(UUID cartId) {
-        this.cartId = cartId;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     public BigDecimal getItemPrice() {

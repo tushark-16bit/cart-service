@@ -9,4 +9,6 @@ public interface CartDatabase {
     Cart getCartById(UUID cartId);
 
     Cart save(Cart cart);
+
+    void deleteCartById(UUID cartId);
 }
