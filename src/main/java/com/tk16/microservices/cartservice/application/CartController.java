@@ -18,8 +18,8 @@ public class CartController {
         return cartService.getCartById(id);
     }
 
-    @PostMapping("/cart")
+    @PostMapping
     public UUID createCart() {
-        return cartService.createCart(new Cart());
+        return cartService.createCart();
     }
 }

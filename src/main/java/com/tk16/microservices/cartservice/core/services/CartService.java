@@ -15,6 +15,7 @@ public class CartService {
     // get cart
     public Cart getCartById(UUID id) {
         return cartDatabase.getCartById(id);
+        // throw error if not found
     }
 
     // delete cart

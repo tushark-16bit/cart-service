@@ -19,6 +19,9 @@ public class CartDatabaseAdapter implements CartDatabase {
     }
 
     // delete cart
+    @Override public void deleteCartById(UUID cartId) {
+
+    }
 
     // create cart
 
