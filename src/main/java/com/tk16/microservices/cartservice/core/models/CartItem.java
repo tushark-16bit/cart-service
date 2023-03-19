@@ -20,13 +20,14 @@ public class CartItem {
     public CartItem() {
     }
 
-    public CartItem(long bookId, String cartItemDescription, Cart cart,
-                    BigDecimal bookPrice) {
-        this.cartItemId = UUID.randomUUID();
-        this.bookId = bookId;
-        this.bookDescription = cartItemDescription;
-        this.cart = cart;
-        this.itemPrice = bookPrice;
+    public static CartItem of(BookDto book, Cart cart) {
+        var cartItem = new CartItem();
+        cartItem.setBookDescription(book.description());
+        cartItem.setBookId(book.bookId());
+        cartItem.setItemPrice(book.price());
+        cartItem.setCart(cart);
+        cartItem.setCartItemId(UUID.randomUUID());
+        return cartItem;
     }
 
     public UUID getCartItemId() {

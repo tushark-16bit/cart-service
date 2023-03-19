@@ -5,12 +5,13 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
-// will act as proxy for books service
 @Service
 public class BookClient {
 
 //     get book details from client
     public BookDto getBookById(Long id) {
+        // call book proxy
+        // check if book is null
         return new BookDto(id, "Harry Potter", "Greatest " +
                 "Book series ever", BigDecimal.valueOf(100));
     }
