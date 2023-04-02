@@ -1,19 +1,24 @@
 package com.tk16.microservices.cartservice.core.models;
 
-import jakarta.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tk16.microservices.cartservice.core.models.dto.BookDto;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@Entity
-public class CartItem {
+@Entity public class CartItem {
 
-    @Id
-    private UUID cartItemId;
+    @Id private UUID cartItemId;
     private long bookId;
     private String bookDescription;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "cart_id")
+    @JsonIgnore
     private Cart cart;
     private BigDecimal itemPrice;
 

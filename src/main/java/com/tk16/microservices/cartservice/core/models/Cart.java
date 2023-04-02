@@ -8,11 +8,9 @@ import jakarta.persistence.OneToMany;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
-public class Cart {
+@Entity public class Cart {
 
-    @Id
-    private UUID cartId;
+    @Id private UUID cartId;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart")
     private List<CartItem> cartItems;
     private static final int CART_ITEM_CAPACITY = 10;
@@ -33,12 +31,11 @@ public class Cart {
         return this.cartItems;
     }
 
-    public void setCartItems(
-            List<CartItem> cartItems) {
+    public void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
     }
 
     public boolean isCartFull() {
-        return CART_ITEM_CAPACITY<=cartItems.size();
+        return CART_ITEM_CAPACITY <= cartItems.size();
     }
 }

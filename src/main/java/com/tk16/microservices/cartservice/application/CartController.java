@@ -3,30 +3,44 @@ package com.tk16.microservices.cartservice.application;
 import com.tk16.microservices.cartservice.core.models.Cart;
 import com.tk16.microservices.cartservice.core.models.CartItem;
 import com.tk16.microservices.cartservice.core.services.CartService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-@RestController
-@RequestMapping("/cart")
-public class CartController {
+@RestController @RequestMapping("/cart") public class CartController {
 
-    @Autowired CartService cartService;
+    private final CartService cartService;
 
-    @GetMapping
-    public List<CartItem> getAllCartItemsInCart(UUID cartId) {
-        return cartService.getAllInCart(cartId);
+    public CartController(CartService cartService) {
+        this.cartService = cartService;
     }
 
-    @GetMapping("/{id}")
-    public Cart getCartById(@PathVariable UUID id) {
-        return cartService.getCartById(id);
+    @GetMapping public List<Cart> getAllCarts() {
+        return cartService.getAllCarts();
     }
 
-    @PostMapping
-    public UUID createCart() {
+    @PostMapping public UUID createCart() {
         return cartService.createCart();
+    }
+
+    @GetMapping("/{cartId}")
+    public Cart getCartById(@PathVariable UUID cartId) {
+        return cartService.getCartById(cartId);
+    }
+
+    @GetMapping("/{cartId}/price")
+    public BigDecimal getTotalPrice(@PathVariable UUID cartId) throws Exception {
+        return cartService.getTotalPrice(cartId);
+    }
+
+    @GetMapping("/{cartId}/cart-items")
+    public List<CartItem> getAllCartItemsInCart(@PathVariable UUID cartId) {
+        return cartService.getAllInCart(cartId);
     }
 }
