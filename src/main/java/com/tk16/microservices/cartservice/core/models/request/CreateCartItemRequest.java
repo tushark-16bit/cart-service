@@ -1,4 +1,4 @@
-package com.tk16.microservices.cartservice.core.request;
+package com.tk16.microservices.cartservice.core.models.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
