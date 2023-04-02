@@ -1,9 +1,9 @@
 package com.tk16.microservices.cartservice.core.services;
 
-import com.tk16.microservices.cartservice.core.clients.BookClient;
+import com.tk16.microservices.cartservice.core.ports.client.BookClient;
 import com.tk16.microservices.cartservice.core.models.CartItem;
-import com.tk16.microservices.cartservice.core.ports.CartDatabase;
-import com.tk16.microservices.cartservice.core.ports.CartItemDatabase;
+import com.tk16.microservices.cartservice.core.ports.database.CartDatabase;
+import com.tk16.microservices.cartservice.core.ports.database.CartItemDatabase;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,28 +18,37 @@ public class CartItemService {
     @Autowired BookClient bookClient;
     @Autowired CartItemDatabase cartItemDatabase;
 
-    // TODO: delete cart item
+    public void deleteCartItemById(UUID cartItemId) {
+        cartItemDatabase.deleteCartItem(cartItemId);
+    }
 
-    // get cart item by cart
     public CartItem getCartItem(UUID cartItemId) {
         return cartItemDatabase.get(cartItemId);
     }
 
     @Transactional(rollbackOn = Exception.class)
-    public CartItem createCartItem(Long bookId, UUID cartId) throws Exception {
+    public UUID createCartItem(Long bookId, UUID cartId) {
         var cartItem =
                 CartItem.of(
                         bookClient.getBookById(bookId),
-                        cartDatabase.getCartById(cartId)
+                        cartDatabase.getById(cartId)
                 );
-        return cartItemDatabase.save(cartItem);
+        return cartItemDatabase.save(cartItem).getCartItemId();
     }
 
-    // get all cart items by cart id
-    @Transactional
+    public UUID updateCartItem(UUID cartItemId,
+                                   long bookId, UUID cartId) {
+        var cartItem =
+                CartItem.of(
+                        bookClient.getBookById(bookId),
+                        cartDatabase.getById(cartId)
+                );
+        cartItem.setCartItemId(cartItemId);
+        return cartItemDatabase.save(cartItem).getCartItemId();
+    }
+
     public List<CartItem> getAllCartItemsForCart(UUID cartId) {
-        var cart = cartDatabase.getCartById(cartId);
-        // verify if exists
+        var cart = cartDatabase.getById(cartId);
         return cartItemDatabase.findAllByCart(cart);
     }
 

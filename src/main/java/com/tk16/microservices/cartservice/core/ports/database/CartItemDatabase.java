@@ -1,4 +1,4 @@
-package com.tk16.microservices.cartservice.core.ports;
+package com.tk16.microservices.cartservice.core.ports.database;
 
 import com.tk16.microservices.cartservice.core.models.Cart;
 import com.tk16.microservices.cartservice.core.models.CartItem;
@@ -10,6 +10,8 @@ public interface CartItemDatabase {
 
     // save cart item
     CartItem save(CartItem item);
+
+    void deleteCartItem(UUID cartItemId);
 
     // get cart item from id
     CartItem get(UUID id);

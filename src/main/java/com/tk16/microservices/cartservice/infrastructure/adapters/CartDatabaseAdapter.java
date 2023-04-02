@@ -1,27 +1,33 @@
 package com.tk16.microservices.cartservice.infrastructure.adapters;
 
 import com.tk16.microservices.cartservice.core.models.Cart;
-import com.tk16.microservices.cartservice.core.ports.CartDatabase;
+import com.tk16.microservices.cartservice.core.ports.database.CartDatabase;
 import com.tk16.microservices.cartservice.infrastructure.repositories.CartRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 
-@Component
-public class CartDatabaseAdapter implements CartDatabase {
+@Component public class CartDatabaseAdapter implements CartDatabase {
 
-    @Autowired CartRepository repository;
+    CartRepository repository;
+
+    public CartDatabaseAdapter(CartRepository repository) {
+        this.repository = repository;
+    }
+
+    // get All carts
+    @Override public List<Cart> getAllCarts() {
+        return repository.findAll();
+    }
 
     // get cart
-    public Cart getCartById(UUID cartId) {
+    @Override public Cart getCartById(UUID cartId) {
         return repository.findById(cartId).orElse(null);
     }
 
     // delete cart
-    @Override public void deleteCartById(UUID cartId) {
-
-    }
+    @Override public void deleteCartById(UUID cartId) {}
 
     // create cart
 

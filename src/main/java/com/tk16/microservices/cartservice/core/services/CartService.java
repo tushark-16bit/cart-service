@@ -2,8 +2,7 @@ package com.tk16.microservices.cartservice.core.services;
 
 import com.tk16.microservices.cartservice.core.models.Cart;
 import com.tk16.microservices.cartservice.core.models.CartItem;
-import com.tk16.microservices.cartservice.core.ports.CartDatabase;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.tk16.microservices.cartservice.core.ports.database.CartDatabase;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,13 +13,23 @@ import java.util.UUID;
 @Service
 public class CartService {
 
-    @Autowired CartDatabase cartDatabase;
-    @Autowired CartItemService cartItemService;
+    CartDatabase cartDatabase;
+    CartItemService cartItemService;
+
+    public CartService(CartDatabase cartDatabase,
+                       CartItemService cartItemService) {
+        this.cartDatabase = cartDatabase;
+        this.cartItemService = cartItemService;
+    }
 
     // get cart
     public Cart getCartById(UUID id) {
-        return cartDatabase.getCartById(id);
-        // throw error if not found
+        return cartDatabase.getById(id);
+    }
+
+    // get all carts
+    public List<Cart> getAllCarts() {
+        return cartDatabase.getAllCarts();
     }
 
     // TODO: delete cart
@@ -33,14 +42,10 @@ public class CartService {
     // TODO: remove book from cart
 
 
-    // get cart items in cart
     public List<CartItem> getAllInCart(UUID cart) {
         return cartItemService.getAllCartItemsForCart(cart);
     }
 
-    // get total price of cart
-    // get all cart items in cart
-    // price calculator for items
     public BigDecimal getTotalPrice(UUID cartId) throws Exception {
         var cartItems = cartItemService.getAllCartItemsForCart(cartId);
         var totalPrice =
